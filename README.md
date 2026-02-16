@@ -50,7 +50,7 @@ pip install -r requirements.txt
   録画中は画面右上に「*REC」が表示される。
 
   記録したデータはプロジェクト内「recording」フォルダに、
-  "yyyyMMdd_hhmmss/tello_yyyyMMdd_hhmmss.jpg(.mp4)"として保存。  
+  「yyyyMMdd_hhmmss/tello_yyyyMMdd_hhmmss.jpg(.mp4)」として保存。  
   ※recordingフォルダは実行時に自動で作成。  
   ※ファイル名は記録した時の日時。
 
