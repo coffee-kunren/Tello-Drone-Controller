@@ -24,9 +24,9 @@ DJI Telloを用いたリアルタイム画像認識対応ドローン制御プ�
 ```bash
 pip install -r requirements.txt
 ```
-**※Windows環境では「av」ライブラリ使用にあたり、ネットから
+*※Windows環境では「av」ライブラリ使用に伴い、ネットから
  「ffmpeg-n8.0-latest-win64-lgpl-shared-8.0」 をダウンロードして
-  プロジェクトフォルダ内に配置すること。**
+  プロジェクトフォルダ内に配置すること。*
 
 ## 機能詳細
 - キーボードでのドローン操作  
