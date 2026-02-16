@@ -51,8 +51,8 @@ pip install -r requirements.txt
 
   - 記録したデータはプロジェクト内「recording」フォルダに、
      「yyyyMMdd_hhmmss/tello_yyyyMMdd_hhmmss.jpg(.mp4)」として保存。  
-     ※recordingフォルダは実行時に自動で作成。  
-     ※ファイル名は記録した時の日時。
+     ***※recordingフォルダは実行時に自動で作成。***  
+     *※ファイル名は記録した時の日時。*
 
   - カメラ起動中、ピースサインを画面内に3秒以上継続すると
      「3，2，1」の後に写真を撮影。  
