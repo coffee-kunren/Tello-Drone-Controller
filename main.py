@@ -4,8 +4,6 @@
 #   最も近い対象への追従機能(その場回転のみ) + 人間追従時、高さを頭の位置でキープ
 #   写真・録画 + ピースを合図に3秒後に写真を撮る機能
 
-#   ※写真撮影完了時にドローンを軽く動かして合図を出す要素を追加
-
 import tellopy
 import pygame
 import cv2
@@ -21,6 +19,9 @@ import mediapipe as mp
 # ------------------------------
 # 標準使用パラメータ
 # ------------------------------
+VIDEO_FPS = 240      # Telloの実fpsとOpenCVの再生fps差を補正(※録画映像のスピードに合わせて変更してください)
+MAX_HANDS = 4        # カメラ内の手(ピースサイン)の同時検出数(※多くすると処理重くなるかも？)
+
 FULL_SPEED = 50      # 前後左右の移動スピード(最高速度)
 SLOW_SPEED = 15      # 前方警戒時のスピード(制限速度)
 YAW_SPEED = 60       # 回転スピード
@@ -29,25 +30,25 @@ VERTICAL_SPEED = 60  # 上下移動スピード
 # ------------------------------
 # 衝突防止 判定用パラメータ
 # ------------------------------
-SLOW_RATIO = 0.3
-STOP_RATIO = 0.5
 TARGET = 0           # 判定対象（0：人間、39：ペットボトル）
+SLOW_RATIO = 0.3     # 判定対象の画面占有率がこれを超えると前進速度を制限
+STOP_RATIO = 0.5     #                  〃                 前進速度を0に
 
 # ------------------------------
 # 中央補正パラメータ
 # ------------------------------
-CENTER_TOLERANCE_X = 150   # 対象の中心とカメラの中央との差の許容範囲 (横軸)
+CENTER_TOLERANCE_X = 150   # 対象の中心とカメラの中央との差の許容範囲 (横軸) ※単位：px
 CENTER_TOLERANCE_Y = 50    #                    〃                    (縦軸)
-AUTO_YAW_SPEED = 60        # 自動補正の回転スピード(40以上にすると左右の回転を繰り返しだす)
+AUTO_YAW_SPEED = 60        # 自動補正の回転スピード(40以上にすると左右に首振りを繰り返しだす)
 AUTO_UP_SPEED = 50         # 自動補正の上昇スピード(上昇と下降で速度の影響が異なるため個別に設定)
 AUTO_DOWN_SPEED = 1        # 自動補正の下降スピード(値が大きいと上下運動を繰り返しだす)
-TOP_MARGIN = 60            # 対象の頭と画面上端の余白(単位：px)(※CENTER_TOLERANCE_Yより大きい値にすること)
+TOP_MARGIN = 60            # 対象の頭と画面上端の余白(単位：px) ※CENTER_TOLERANCE_Yより大きい値にすること
 
 # ------------------------------
 # カメラの写真・録画
 # ------------------------------
 class Recorder:
-    def __init__(self, output_dir, fps=240):    # 「fps=240」 → Telloの実fpsとOpenCVの再生fps差を補正するため
+    def __init__(self, output_dir, fps=VIDEO_FPS):
         self.output_dir = output_dir
         self.fps = fps
         self.video_writer = None
@@ -105,7 +106,7 @@ class PeaceCamera:
         self.mp_hands = mp.solutions.hands
         self.hands = self.mp_hands.Hands(
             static_image_mode=False,
-            max_num_hands=4,               # カメラ内の手の同時検出数(多くすると処理重くなるかも？)
+            max_num_hands=MAX_HANDS,
             min_detection_confidence=0.7,
             min_tracking_confidence=0.5
         )
