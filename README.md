@@ -82,10 +82,10 @@ pip install -r requirements.txt
 1. ドローンとPCをWi-Fi接続
 2. pyファイルを実行
 3. 「Tello Controls」と「Tello Camera」の2つのウィンドウが表示
-4. **「操作ウィンドウ」をクリックしてフォーカス(※忘れずに！)**
+4. **「Tello Controls」ウィンドウをクリックしてフォーカス(※忘れずに！)**
 5. ドローン操作
 6. プログラム終了時：
-   - 「画面」をフォーカスして "Q" キー
+   - 「Tello Camera」ウィンドウをフォーカスして "Q" キー
    - またはコンソールで Ctrl+C
 
 ## 環境構築時の補足
